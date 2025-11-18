@@ -394,13 +394,6 @@ body {
     letter-spacing: -0.01em;
 }
 
-.nav-item-admin {
-    margin-top: auto !important;
-    margin-bottom: var(--space-2) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-    padding-top: var(--space-2) !important;
-}
-
 .sidebar-version {
     text-align: center !important;
     padding: 16px 0 0 0 !important;

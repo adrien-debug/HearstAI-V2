@@ -432,6 +432,10 @@ export function addCustomer() {
     alert('Opening new customer form...\nThis would show a form to add a new customer to the platform.');
 }
 
+export function addNewPosition() {
+    alert('Opening new position form...\nThis would show a form to create a new collateral position.');
+}
+
 export function showCustomerDetails(customer) {
     if (!customer) return;
     const modal = document.getElementById('customerModal');
@@ -454,7 +458,7 @@ export function showCustomerDetails(customer) {
                 </div>
                 <div>
                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Position Value</div>
-                    <div style="font-size: 14px; color: #7bed9f; font-weight: 600;">$${customer.positionValue.toLocaleString()}</div>
+                    <div style="font-size: 14px; color: var(--primary-green); font-weight: 600;">$${customer.positionValue.toLocaleString()}</div>
                 </div>
                 <div>
                     <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">BTC Wallet</div>
@@ -480,6 +484,7 @@ export function closeCustomerModal() {
 window.exportCollateral = exportCollateral;
 window.exportCustomers = exportCustomers;
 window.addCustomer = addCustomer;
+window.addNewPosition = addNewPosition;
 window.showCustomerDetails = showCustomerDetails;
 window.closeCustomerModal = closeCustomerModal;
 

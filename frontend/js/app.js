@@ -31,6 +31,7 @@ class ClaudeCockpitApp {
         this.contentArea = document.getElementById('content-area');
         this.pageTitle = document.getElementById('page-title');
         this.btnNewAction = document.getElementById('btn-new-action');
+        this.headerClockInterval = null;
         
         // Check if required elements exist
         if (!this.contentArea) {
@@ -325,7 +326,7 @@ node server.js</pre>
             versions: 'Versions',
             prompts: 'Prompt Profiles',
             logs: 'Activity Logs',
-            cockpit: 'Cockpit',
+            cockpit: 'Claude CI/CD Cockpit',
             settings: 'Settings',
             electricity: 'Électricité',
             'admin-panel': 'Admin Panel',
@@ -365,12 +366,60 @@ node server.js</pre>
         if (view === 'cockpit') {
             // Pour cockpit, on cache le bouton et on affiche la navigation
             this.btnNewAction.style.display = 'none';
-            // Cacher le header-right (Admin)
+            // Afficher le header-right avec l'horloge et le badge LIVE
             const headerRight = document.querySelector('.header-right');
             if (headerRight) {
-                headerRight.style.display = 'none';
+                headerRight.style.display = 'flex';
+                headerRight.style.alignItems = 'center';
+                headerRight.style.gap = 'var(--space-4)';
+                
+                // Supprimer l'ancien contenu de l'horloge si présent
+                const existingClock = headerRight.querySelector('.header-cockpit-clock-container');
+                if (existingClock) {
+                    existingClock.remove();
+                }
+                
+                // Créer le conteneur pour l'horloge et le badge LIVE
+                const clockContainer = document.createElement('div');
+                clockContainer.className = 'header-cockpit-clock-container';
+                clockContainer.style.cssText = 'display: flex; align-items: center; gap: var(--space-3);';
+                
+                // Créer l'horloge
+                const clock = document.createElement('div');
+                clock.id = 'headerCockpitClock';
+                clock.className = 'header-cockpit-clock';
+                clock.style.cssText = 'font-size: var(--text-base); font-weight: var(--font-semibold); color: var(--primary-green); font-variant-numeric: tabular-nums; font-family: var(--font-mono, monospace);';
+                
+                // Créer le badge LIVE
+                const liveBadge = document.createElement('div');
+                liveBadge.className = 'header-cockpit-live-badge';
+                liveBadge.style.cssText = 'display: inline-flex; align-items: center; gap: var(--space-2); padding: var(--space-2) var(--space-4); background: rgba(138, 253, 129, 0.1); border: 1px solid rgba(138, 253, 129, 0.3); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: var(--font-semibold); color: var(--primary-green); text-transform: uppercase; letter-spacing: 0.5px;';
+                
+                const liveDot = document.createElement('span');
+                liveDot.className = 'header-cockpit-live-dot';
+                liveDot.style.cssText = 'width: 8px; height: 8px; background: var(--primary-green); border-radius: 50%; animation: pulse 2s infinite;';
+                
+                const liveText = document.createElement('span');
+                liveText.textContent = 'LIVE';
+                
+                liveBadge.appendChild(liveDot);
+                liveBadge.appendChild(liveText);
+                
+                clockContainer.appendChild(clock);
+                clockContainer.appendChild(liveBadge);
+                
+                // Insérer avant le user-badge s'il existe, sinon à la fin
+                const userBadge = headerRight.querySelector('.user-badge');
+                if (userBadge) {
+                    headerRight.insertBefore(clockContainer, userBadge);
+                } else {
+                    headerRight.appendChild(clockContainer);
+                }
+                
+                // Initialiser l'horloge
+                this.initHeaderClock();
             }
-            // Afficher le header-left pour le titre "Cockpit"
+            // Afficher le header-left pour le titre "Claude CI/CD Cockpit"
             const headerLeft = document.querySelector('.header-left');
             if (headerLeft) {
                 headerLeft.style.display = 'flex';
@@ -398,17 +447,17 @@ node server.js</pre>
         } else if (view === 'projects') {
             // Pour projects, on cache le bouton et on affiche la navigation
             if (this.btnNewAction) this.btnNewAction.style.display = 'none';
-            // Cacher le header-right (Admin)
+            // Cacher le header-right (Admin) complètement
             const headerRight = document.querySelector('.header-right');
             if (headerRight) {
                 headerRight.style.display = 'none';
             }
-            // Afficher le header-left pour le titre "Projestions"
+            // Afficher le header-left pour le titre "Projections"
             const headerLeft = document.querySelector('.header-left');
             if (headerLeft) {
                 headerLeft.style.display = 'flex';
             }
-            // Supprimer les autres navigations
+            // Supprimer TOUTES les autres navigations pour éviter les doublons
             const settingsNav = document.getElementById('settings-header-nav');
             if (settingsNav) settingsNav.remove();
             const electricityNav = document.getElementById('electricity-header-nav');
@@ -417,11 +466,21 @@ node server.js</pre>
             if (adminPanelNav) adminPanelNav.remove();
             const collateralNav = document.getElementById('collateral-header-nav');
             if (collateralNav) collateralNav.remove();
+            const cockpitNav = document.getElementById('cockpit-header-nav');
+            if (cockpitNav) cockpitNav.remove();
+            // Supprimer aussi toutes les navigations projections existantes (doublons)
+            const allProjectionsNavs = document.querySelectorAll('#projections-header-nav');
+            allProjectionsNavs.forEach(nav => nav.remove());
+            // Supprimer le bouton Export PDF s'il existe (créé dans la section else)
+            const existingExportBtn = document.getElementById('header-export-btn');
+            if (existingExportBtn) {
+                existingExportBtn.remove();
+            }
             const header = document.querySelector('.header');
             if (header) {
-                header.classList.remove('has-settings-nav', 'has-electricity-nav', 'has-admin-panel-nav', 'has-collateral-nav');
-                header.classList.add('has-projections-nav');
+                header.classList.remove('has-settings-nav', 'has-electricity-nav', 'has-admin-panel-nav', 'has-collateral-nav', 'has-cockpit-nav');
             }
+            // Créer la navigation projections (une seule fois)
             this.setupProjectionsHeaderNav();
         } else if (view === 'settings') {
             // Pour settings, on cache le bouton et on affiche la navigation
@@ -611,6 +670,46 @@ node server.js</pre>
                 header.classList.remove('has-electricity-nav');
                 header.classList.remove('has-admin-panel-nav');
             }
+            
+            // Nettoyer l'horloge du header si elle existe
+            this.cleanupHeaderClock();
+            const headerRightCleanup = document.querySelector('.header-right');
+            if (headerRightCleanup) {
+                const clockContainer = headerRightCleanup.querySelector('.header-cockpit-clock-container');
+                if (clockContainer) {
+                    clockContainer.remove();
+                }
+            }
+        }
+    }
+    
+    initHeaderClock() {
+        // Nettoyer l'intervalle existant s'il y en a un
+        this.cleanupHeaderClock();
+        
+        // Fonction pour mettre à jour l'horloge
+        const updateClock = () => {
+            const clockElement = document.getElementById('headerCockpitClock');
+            if (clockElement) {
+                const now = new Date();
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                clockElement.textContent = `${hours}:${minutes}:${seconds}`;
+            }
+        };
+        
+        // Mettre à jour immédiatement
+        updateClock();
+        
+        // Mettre à jour toutes les secondes
+        this.headerClockInterval = setInterval(updateClock, 1000);
+    }
+    
+    cleanupHeaderClock() {
+        if (this.headerClockInterval) {
+            clearInterval(this.headerClockInterval);
+            this.headerClockInterval = null;
         }
     }
     
@@ -1048,75 +1147,114 @@ node server.js</pre>
     }
     
     setupCollateralHeaderNav() {
-        // Supprimer TOUTES les navigations existantes pour éviter les doublons
-        const existingNavs = document.querySelectorAll('#collateral-header-nav');
-        existingNavs.forEach(nav => nav.remove());
-        
-        // Vérifier s'il n'y a pas déjà une navigation (double vérification)
+        // ÉTAPE 1 : Nettoyer complètement toutes les navigations existantes
         const header = document.querySelector('.header');
-        if (!header) return;
+        if (!header) {
+            console.error('[Collateral Nav] Header not found');
+            return;
+        }
         
-        // Supprimer toutes les navigations de header existantes
+        // Supprimer toutes les navigations collateral
+        const oldCollateralNavs = header.querySelectorAll('#collateral-header-nav');
+        oldCollateralNavs.forEach(nav => nav.remove());
+        
+        // Supprimer toutes les autres navigations de header
         const allHeaderNavs = header.querySelectorAll('.cockpit-header-nav');
-        allHeaderNavs.forEach(nav => {
-            if (nav.id === 'collateral-header-nav') {
-                nav.remove();
-            }
-        });
+        allHeaderNavs.forEach(nav => nav.remove());
         
-        // Retirer la classe si elle existe déjà
-        header.classList.remove('has-collateral-nav');
+        // Nettoyer toutes les classes de navigation du header
+        header.classList.remove(
+            'has-cockpit-nav',
+            'has-projections-nav',
+            'has-settings-nav',
+            'has-electricity-nav',
+            'has-admin-panel-nav',
+            'has-collateral-nav'
+        );
         
-        // Ajouter la classe au header pour le positionnement
+        // ÉTAPE 2 : Ajouter la classe collateral au header
         header.classList.add('has-collateral-nav');
         
-        // Créer un conteneur centré pour les onglets
-        const collateralNav = document.createElement('div');
-        collateralNav.id = 'collateral-header-nav';
-        collateralNav.className = 'cockpit-header-nav';
-        collateralNav.innerHTML = `
-            <div class="cockpit-nav-tabs">
-                <button class="cockpit-nav-tab collateral-nav-tab active" data-collateral-section="dashboard">
-                    <span class="cockpit-nav-icon">${Icons.dashboard}</span>
-                    <span class="cockpit-nav-label">Dashboard</span>
-                </button>
-                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="collateral">
-                    <span class="cockpit-nav-icon">${Icons.document}</span>
-                    <span class="cockpit-nav-label">Collateral</span>
-                </button>
-                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="customers">
-                    <span class="cockpit-nav-icon">${Icons.workers}</span>
-                    <span class="cockpit-nav-label">Customers</span>
-                </button>
-                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="api-management">
-                    <span class="cockpit-nav-icon">${Icons.settings}</span>
-                    <span class="cockpit-nav-label">API Management</span>
-                </button>
-            </div>
-        `;
+        // ÉTAPE 3 : Créer la structure HTML de la navigation
+        const navContainer = document.createElement('div');
+        navContainer.id = 'collateral-header-nav';
+        navContainer.className = 'cockpit-header-nav';
         
-        // Insérer dans le header (centré)
-        header.appendChild(collateralNav);
+        const tabsContainer = document.createElement('div');
+        tabsContainer.className = 'cockpit-nav-tabs';
         
-        // Attacher les event listeners
-        const navTabs = collateralNav.querySelectorAll('.collateral-nav-tab');
-        navTabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                const sectionId = tab.getAttribute('data-collateral-section');
-                if (sectionId && window.showCollateralSection) {
+        // Définir les onglets avec leurs propriétés
+        const tabs = [
+            { id: 'dashboard', label: 'Dashboard', icon: Icons.dashboard || '' },
+            { id: 'collateral', label: 'Collateral', icon: Icons.document || '' },
+            { id: 'customers', label: 'Customers', icon: Icons.workers || '' },
+            { id: 'api-management', label: 'API Management', icon: Icons.settings || '' }
+        ];
+        
+        // Créer chaque onglet
+        tabs.forEach((tab, index) => {
+            const button = document.createElement('button');
+            button.className = `cockpit-nav-tab collateral-nav-tab${index === 0 ? ' active' : ''}`;
+            button.setAttribute('data-collateral-section', tab.id);
+            button.type = 'button';
+            
+            const iconSpan = document.createElement('span');
+            iconSpan.className = 'cockpit-nav-icon';
+            iconSpan.innerHTML = tab.icon;
+            
+            const labelSpan = document.createElement('span');
+            labelSpan.className = 'cockpit-nav-label';
+            labelSpan.textContent = tab.label;
+            
+            button.appendChild(iconSpan);
+            button.appendChild(labelSpan);
+            tabsContainer.appendChild(button);
+        });
+        
+        navContainer.appendChild(tabsContainer);
+        
+        // ÉTAPE 4 : Insérer la navigation dans le header
+        header.appendChild(navContainer);
+        
+        // ÉTAPE 5 : Attacher les event listeners
+        const navButtons = navContainer.querySelectorAll('.collateral-nav-tab');
+        navButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const sectionId = this.getAttribute('data-collateral-section');
+                if (!sectionId) {
+                    console.error('[Collateral Nav] No section ID on button');
+                    return;
+                }
+                
+                // Mettre à jour l'état actif visuellement
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Appeler la fonction de changement de section
+                if (typeof window.showCollateralSection === 'function') {
                     window.showCollateralSection(sectionId);
-                    
-                    // Update active state
-                    navTabs.forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
+                } else {
+                    console.error('[Collateral Nav] showCollateralSection not available');
                 }
             });
         });
         
-        // Recharger les icônes après insertion
-        if (this.reloadIcons) {
-            this.reloadIcons();
+        // ÉTAPE 6 : Recharger les icônes
+        if (this.reloadIcons && typeof this.reloadIcons === 'function') {
+            setTimeout(() => {
+                this.reloadIcons();
+            }, 150);
         }
+        
+        // ÉTAPE 7 : Forcer l'affichage
+        navContainer.style.display = 'flex';
+        navContainer.style.visibility = 'visible';
+        navContainer.style.opacity = '1';
+        
+        console.log('[Collateral Nav] Navigation initialized successfully');
     }
     
     handleNewAction() {

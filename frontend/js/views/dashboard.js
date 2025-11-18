@@ -81,38 +81,38 @@ export function renderDashboard(data) {
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>2025-07-09</td>
-                                        <td class="transaction-amount">0.005650 BTC</td>
+                                        <td>2025-01-18</td>
+                                        <td class="transaction-amount">0.006234 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>a1b2c3d4e5f6...</td>
                                     </tr>
                                     <tr>
-                                        <td>2025-07-09</td>
-                                        <td class="transaction-amount">0.005650 BTC</td>
+                                        <td>2025-01-17</td>
+                                        <td class="transaction-amount">0.005891 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>f6e5d4c3b2a1...</td>
                                     </tr>
                                     <tr>
-                                        <td>2025-07-09</td>
-                                        <td class="transaction-amount">0.005650 BTC</td>
+                                        <td>2025-01-16</td>
+                                        <td class="transaction-amount">0.005432 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>9z8y7x6w5v4u...</td>
                                     </tr>
                                     <tr class="row-hidden" data-table="wallet">
-                                        <td>2025-07-08</td>
-                                        <td class="transaction-amount">0.004320 BTC</td>
+                                        <td>2025-01-15</td>
+                                        <td class="transaction-amount">0.004876 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>3t4u5v6w7x8y...</td>
                                     </tr>
                                     <tr class="row-hidden" data-table="wallet">
-                                        <td>2025-07-08</td>
-                                        <td class="transaction-amount">0.003210 BTC</td>
+                                        <td>2025-01-14</td>
+                                        <td class="transaction-amount">0.004521 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>7m8n9o0p1q2r...</td>
                                     </tr>
                                     <tr class="row-hidden" data-table="wallet">
-                                        <td>2025-07-07</td>
-                                        <td class="transaction-amount">0.002890 BTC</td>
+                                        <td>2025-01-13</td>
+                                        <td class="transaction-amount">0.004198 BTC</td>
                                         <td>1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</td>
                                         <td>5k6l7m8n9o0p...</td>
                                     </tr>
@@ -136,9 +136,9 @@ export function renderDashboard(data) {
                         <h2 class="transaction-history-title">Transaction history</h2>
                         <div class="transaction-history-controls">
                             <select class="date-range-select" id="date-range-select">
-                                <option value="June 1, 2025 - June 30, 2025">June 1, 2025 - June 30, 2025</option>
-                                <option value="May 1, 2025 - May 31, 2025">May 1, 2025 - May 31, 2025</option>
-                                <option value="April 1, 2025 - April 30, 2025">April 1, 2025 - April 30, 2025</option>
+                                <option value="January 1, 2025 - January 31, 2025">January 1, 2025 - January 31, 2025</option>
+                                <option value="December 1, 2024 - December 31, 2024">December 1, 2024 - December 31, 2024</option>
+                                <option value="November 1, 2024 - November 30, 2024">November 1, 2024 - November 30, 2024</option>
                             </select>
                             <select class="contract-select" id="contract-select">
                                 <option value="Contracts AL01">Contracts AL01</option>
@@ -164,39 +164,39 @@ export function renderDashboard(data) {
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>2025-06-30</td>
+                                    <td>2025-01-18</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.084521 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                                 <tr>
-                                    <td>2025-06-29</td>
+                                    <td>2025-01-17</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.083247 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                                 <tr>
-                                    <td>2025-06-28</td>
+                                    <td>2025-01-16</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.082156 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                                 <tr class="row-hidden" data-table="transaction-history">
-                                    <td>2025-06-27</td>
+                                    <td>2025-01-15</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.081892 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                                 <tr class="row-hidden" data-table="transaction-history">
-                                    <td>2025-06-26</td>
+                                    <td>2025-01-14</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.080654 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                                 <tr class="row-hidden" data-table="transaction-history">
-                                    <td>2025-06-25</td>
+                                    <td>2025-01-13</td>
                                     <td>AKT04</td>
-                                    <td class="transaction-reward">0.082848 BTC</td>
+                                    <td class="transaction-reward">0.079432 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
                             </tbody>
@@ -213,7 +213,7 @@ export function renderDashboard(data) {
 
                     <!-- Total Row -->
                     <div class="transaction-history-total">
-                        <strong>Total: <span class="total-amount">2.026587 BTC</span></strong>
+                        <strong>Total: <span class="total-amount">0.491902 BTC</span></strong>
                     </div>
                 </div>
             </div>
