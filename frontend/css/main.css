@@ -235,39 +235,36 @@ body {
 }
 
 .nav-item {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: var(--space-4);
-    padding: 12px 16px;
-    color: #ffffff !important;
-    text-decoration: none;
-    transition: all var(--duration-fast) var(--ease-in-out);
-    border: none;
-    margin: 0;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    border-radius: 8px;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 2px 6px !important;
+    margin-bottom: 2px !important;
+    border-radius: 6px !important;
     background: transparent !important;
+    color: #ffffff !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    min-height: 38px !important;
+    width: 100%;
+    justify-content: flex-start;
     position: relative;
     text-transform: none;
-    min-height: 44px;
-    width: 100%;
 }
 
 .nav-item:hover {
-    background: #2a2a2a !important;
-    color: #ffffff !important;
+    background: #8afd81 !important;
+    color: #000000 !important;
+    box-shadow: 0 0 20px rgba(138, 253, 129, 0.3) !important;
 }
 
 .nav-item.active {
     background: #8afd81 !important;
     color: #000000 !important;
-    border: none;
-    padding: 12px 16px;
-    font-weight: 600;
-    letter-spacing: 0;
+    font-weight: 600 !important;
 }
 
 .nav-item.active:hover {
@@ -276,14 +273,14 @@ body {
 }
 
 .nav-icon {
-    font-size: 18px;
-    width: 20px;
-    text-align: center;
+    width: 18px !important;
+    height: 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
     opacity: 0.9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: inherit; /* Hérite de la couleur du parent */
+    color: inherit;
 }
 
 .nav-icon svg {
@@ -295,24 +292,28 @@ body {
 
 .nav-item:hover .nav-icon {
     opacity: 1;
-    color: #ffffff;
+    color: #000000 !important;
 }
 
 .nav-item.active .nav-icon {
     opacity: 1;
-    color: #000000;
+    color: #000000 !important;
 }
 
+.nav-item:hover .nav-icon,
 .nav-item:hover .nav-label {
-    color: #ffffff;
+    color: #000000 !important;
 }
 
+.nav-item.active .nav-icon,
 .nav-item.active .nav-label {
-    color: #000000;
+    color: #000000 !important;
 }
 
 .nav-label {
-    font-size: var(--text-sm);
+    flex: 1 !important;
+    white-space: nowrap !important;
+    font-size: 13px;
     letter-spacing: -0.01em;
 }
 
