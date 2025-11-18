@@ -1221,6 +1221,20 @@ node server.js</pre>
                 }, 100);
             }
             
+            // Initialize See More buttons
+            if (window.initSeeMoreButtons) {
+                setTimeout(() => {
+                    window.initSeeMoreButtons();
+                }, 150);
+            }
+            
+            // Initialize Wallet Performance Chart
+            if (window.initWalletPerformanceChart) {
+                setTimeout(() => {
+                    window.initWalletPerformanceChart();
+                }, 200);
+            }
+            
             // Make functions globally available for onclick handlers
             window.viewProject = (id) => console.log('View project:', id);
             window.createJob = (id) => window.showCreateJobModal(id);

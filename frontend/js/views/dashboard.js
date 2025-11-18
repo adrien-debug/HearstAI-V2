@@ -18,11 +18,48 @@ export function renderDashboard(data) {
                                 <div class="wallet-balance-btc">0.031819 BTC</div>
                                 <div class="wallet-balance-usd">$3,628.13 USD</div>
                             </div>
-                            <div class="wallet-address">
-                                <span class="wallet-address-text">1Lzu8ieZUN7QDk6MTiPive2s2uhr2xzqqpck</span>
-                                <button class="wallet-address-copy" onclick="copyWalletAddress()" title="Copy address">
-                                    ${Icons.copy || '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor"><rect x="5" y="5" width="10" height="10" rx="1"/><path d="M3 3h8v8"/></svg>'}
-                                </button>
+                        </div>
+                    </div>
+
+                    <!-- Performance Charts Container (2 colonnes) -->
+                    <div class="wallet-charts-container">
+                        <!-- Graphique Performance Overview existant -->
+                        <div class="wallet-chart-section">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Performance Overview</h2>
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-dot green"></span>
+                                        <span>BTC Wallet</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-dot gray"></span>
+                                        <span>Transactions</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="walletPerformanceChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Nouveau graphique Bar Chart -->
+                        <div class="wallet-chart-section">
+                            <div class="chart-header">
+                                <h2 class="chart-title">Performance Bar Chart</h2>
+                                <div class="chart-legend">
+                                    <div class="legend-item">
+                                        <span class="legend-dot green"></span>
+                                        <span>BTC Wallet</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span class="legend-dot gray"></span>
+                                        <span>Transactions</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="walletBarChart"></canvas>
                             </div>
                         </div>
                     </div>
@@ -53,27 +90,27 @@ export function renderDashboard(data) {
                                         <td>2025-07-09</td>
                                         <td class="transaction-amount">0.005650 BTC</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="row-hidden" data-table="wallet">
                                         <td>2025-07-08</td>
                                         <td class="transaction-amount">0.004320 BTC</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="row-hidden" data-table="wallet">
                                         <td>2025-07-08</td>
                                         <td class="transaction-amount">0.003210 BTC</td>
                                     </tr>
-                                    <tr>
+                                    <tr class="row-hidden" data-table="wallet">
                                         <td>2025-07-07</td>
                                         <td class="transaction-amount">0.002890 BTC</td>
                                     </tr>
                                 </tbody>
                             </table>
-                            <div class="transactions-see-more">
-                                <select class="see-more-select" id="wallet-see-more">
-                                    <option value="">See more</option>
-                                    <option value="all">View all transactions</option>
-                                    <option value="export">Export to CSV</option>
-                                    <option value="filter">Filter by date</option>
-                                </select>
+                            <div class="see-more-container">
+                                <button class="btn-see-more" data-table="wallet">
+                                    <span class="see-more-text">See more</span>
+                                    <svg width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -134,21 +171,21 @@ export function renderDashboard(data) {
                                     <td class="transaction-reward">0.082848 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
-                                <tr>
+                                <tr class="row-hidden" data-table="transaction-history">
                                     <td>2025-06-27</td>
                                     <td>AKT04</td>
                                     <td class="transaction-amount">0.021144 BTC</td>
                                     <td class="transaction-reward">0.082848 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
-                                <tr>
+                                <tr class="row-hidden" data-table="transaction-history">
                                     <td>2025-06-26</td>
                                     <td>AKT04</td>
                                     <td class="transaction-amount">0.021144 BTC</td>
                                     <td class="transaction-reward">0.082848 BTC</td>
                                     <td>2041.42 TH/s</td>
                                 </tr>
-                                <tr>
+                                <tr class="row-hidden" data-table="transaction-history">
                                     <td>2025-06-25</td>
                                     <td>AKT04</td>
                                     <td class="transaction-amount">0.021144 BTC</td>
@@ -157,6 +194,14 @@ export function renderDashboard(data) {
                                 </tr>
                             </tbody>
                         </table>
+                        <div class="see-more-container">
+                            <button class="btn-see-more" data-table="transaction-history">
+                                <span class="see-more-text">See more</span>
+                                <svg width="10" height="10" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M3.5 5.25L7 8.75L10.5 5.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <!-- Total Row -->
@@ -174,6 +219,7 @@ const dashboardStyles = `
 <style>
 .dashboard-view {
     padding: 0;
+    padding-top: 10px;
     width: 100%;
     margin: 0;
 }
@@ -242,7 +288,7 @@ const dashboardStyles = `
     -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
     border: var(--border-thin) solid rgba(255, 255, 255, 0.05) !important;
     border-radius: var(--radius-xl);
-    padding: var(--space-6);
+    padding: var(--space-4);
     margin-bottom: var(--space-6);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
@@ -282,7 +328,7 @@ const dashboardStyles = `
 }
 
 .wallet-card-header {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-3);
 }
 
 .wallet-card-title {
@@ -296,7 +342,7 @@ const dashboardStyles = `
 .wallet-card-body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
+    gap: 0;
 }
 
 .wallet-balance {
@@ -369,6 +415,138 @@ const dashboardStyles = `
     height: 16px;
     stroke: currentColor;
     fill: none;
+}
+
+/* Wallet Chart Section */
+.wallet-chart-section {
+    width: 836px;
+    min-height: 201px;
+    flex: none;
+    order: 2;
+    align-self: stretch;
+    flex-grow: 0;
+    z-index: 2;
+    margin-bottom: var(--space-6);
+    background: rgba(26, 26, 26, 0.7) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: var(--border-thin) solid rgba(255, 255, 255, 0.05) !important;
+    border-radius: var(--radius-xl);
+    padding: var(--space-4);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    transition: all var(--duration-normal) var(--ease-in-out);
+    position: relative;
+    overflow: hidden;
+}
+
+.wallet-chart-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+        circle at top right,
+        rgba(197, 255, 167, 0.05) 0%,
+        transparent 50%
+    );
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.wallet-chart-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.wallet-chart-section:hover {
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.5),
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(197, 255, 167, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-4);
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+.chart-title {
+    font-size: var(--text-lg);
+    font-weight: var(--font-semibold);
+    color: var(--text-primary);
+    margin: 0;
+    letter-spacing: -0.01em;
+    line-height: var(--leading-normal);
+}
+
+.chart-legend {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+}
+
+.legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.legend-dot.green {
+    background-color: #C5FFA7;
+    box-shadow: 0 0 8px rgba(197, 255, 167, 0.5);
+}
+
+.legend-dot.gray {
+    background-color: #888888;
+}
+
+.wallet-chart-section .chart-container {
+    position: relative;
+    width: 100%;
+    height: 201px;
+    min-height: 201px;
+}
+
+/* Container pour les deux graphiques côte à côte */
+.wallet-charts-container {
+    display: flex;
+    gap: var(--space-6);
+    width: 100%;
+    margin-bottom: var(--space-6);
+}
+
+.wallet-charts-container .wallet-chart-section {
+    flex: 1;
+    width: 50%;
+    min-width: 0; /* Permet au flex de fonctionner correctement */
+}
+
+/* Responsive : passer en colonne sur petits écrans */
+@media (max-width: 1024px) {
+    .wallet-charts-container {
+        flex-direction: column;
+    }
+    
+    .wallet-charts-container .wallet-chart-section {
+        width: 100%;
+    }
 }
 
 /* Transactions Section */
@@ -447,75 +625,73 @@ const dashboardStyles = `
     text-shadow: 0 0 10px rgba(197, 255, 167, 0.2);
 }
 
-.transactions-see-more {
-    padding: var(--space-4) var(--space-4);
+/* Hidden rows by default */
+.row-hidden {
+    display: none;
+}
+
+.row-hidden.visible {
+    display: table-row;
+}
+
+/* See More Button - Minimalist */
+.see-more-container {
+    padding: var(--space-2) var(--space-3);
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(26, 26, 26, 0.7) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.03);
+    background: transparent;
     position: relative;
 }
 
-.transactions-see-more::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(197, 255, 167, 0.3), transparent);
+.see-more-container::before {
+    display: none;
 }
 
-.see-more-select {
-    padding: var(--space-3) var(--space-6) !important;
-    background: rgba(10, 10, 10, 0.8) !important;
-    border: 1px solid rgba(197, 255, 167, 0.2) !important;
-    border-radius: var(--radius-md) !important;
-    color: var(--text-primary) !important;
-    font-size: var(--text-sm) !important;
-    font-weight: var(--font-semibold) !important;
-    font-family: var(--font-primary) !important;
-    cursor: pointer !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-    -moz-appearance: none !important;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23C5FFA7' d='M7 10L2 5h10z'/%3E%3C/svg%3E") !important;
-    background-repeat: no-repeat !important;
-    background-position: right var(--space-4) center !important;
-    padding-right: 40px !important;
-    min-width: 160px;
-    letter-spacing: 0.2px;
-    box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
+.btn-see-more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 11px;
+    font-weight: var(--font-normal);
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-radius: var(--radius-sm);
+    letter-spacing: 0.1px;
+    opacity: 0.7;
 }
 
-.see-more-select:hover {
-    border-color: rgba(197, 255, 167, 0.5) !important;
-    background: rgba(10, 10, 10, 0.95) !important;
-    box-shadow: 
-        0 4px 16px rgba(197, 255, 167, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
-    transform: translateY(-1px);
+.btn-see-more:hover {
+    color: #C5FFA7;
+    opacity: 1;
+    background: rgba(197, 255, 167, 0.03);
 }
 
-.see-more-select:focus {
-    outline: none !important;
-    border-color: #C5FFA7 !important;
-    box-shadow: 
-        0 0 0 3px rgba(197, 255, 167, 0.15),
-        0 4px 16px rgba(197, 255, 167, 0.2) !important;
+.btn-see-more:active {
+    transform: translateY(0.5px);
 }
 
-.see-more-select option {
-    background: rgba(26, 26, 26, 0.95) !important;
-    color: var(--text-primary) !important;
-    padding: var(--space-2) !important;
+.btn-see-more svg {
+    width: 10px;
+    height: 10px;
+    stroke: currentColor;
+    transition: transform 0.15s ease;
+    opacity: 0.8;
+}
+
+.btn-see-more.expanded svg {
+    transform: rotate(180deg);
+}
+
+.see-more-text {
+    color: inherit;
 }
 
 /* Transaction History Section */
@@ -884,6 +1060,307 @@ window.copyWalletAddress = function() {
         console.log('Address copied to clipboard');
     });
 };
+
+// Initialize See More buttons
+function initSeeMoreButtons() {
+    const seeMoreButtons = document.querySelectorAll('.btn-see-more');
+    
+    seeMoreButtons.forEach(button => {
+        if (button.dataset.initialized) return;
+        button.dataset.initialized = 'true';
+        
+        button.addEventListener('click', function() {
+            const tableId = this.getAttribute('data-table');
+            const hiddenRows = document.querySelectorAll(`.row-hidden[data-table="${tableId}"]`);
+            const isExpanded = this.classList.contains('expanded');
+            
+            hiddenRows.forEach(row => {
+                if (isExpanded) {
+                    row.classList.remove('visible');
+                } else {
+                    row.classList.add('visible');
+                }
+            });
+            
+            if (isExpanded) {
+                this.classList.remove('expanded');
+                this.querySelector('.see-more-text').textContent = 'See more';
+            } else {
+                this.classList.add('expanded');
+                this.querySelector('.see-more-text').textContent = 'See less';
+            }
+        });
+    });
+}
+
+// Initialize Wallet Performance Chart
+function initWalletPerformanceChart() {
+    const ctx = document.getElementById('walletPerformanceChart');
+    if (!ctx) return;
+
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded yet');
+        setTimeout(initWalletPerformanceChart, 200);
+        return;
+    }
+
+    // Create gradients
+    const btcGradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 201);
+    btcGradient.addColorStop(0, 'rgba(197, 255, 167, 0.3)');
+    btcGradient.addColorStop(0.5, 'rgba(197, 255, 167, 0.1)');
+    btcGradient.addColorStop(1, 'rgba(197, 255, 167, 0)');
+
+    const transactionGradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 201);
+    transactionGradient.addColorStop(0, 'rgba(136, 136, 136, 0.25)');
+    transactionGradient.addColorStop(0.5, 'rgba(136, 136, 136, 0.08)');
+    transactionGradient.addColorStop(1, 'rgba(136, 136, 136, 0)');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                    label: 'BTC Wallet',
+                    data: [0.025, 0.027, 0.029, 0.031, 0.030, 0.032, 0.031, 0.030, 0.032, 0.031, 0.031, 0.032],
+                    borderColor: '#C5FFA7',
+                    backgroundColor: btcGradient,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 8,
+                    pointHoverBackgroundColor: '#C5FFA7',
+                    pointHoverBorderColor: '#FFFFFF',
+                    pointHoverBorderWidth: 3,
+                    yAxisID: 'y'
+                },
+                {
+                    label: 'Transactions',
+                    data: [0.005, 0.0055, 0.0052, 0.0058, 0.0056, 0.0059, 0.0057, 0.0055, 0.0058, 0.0056, 0.0057, 0.0058],
+                    borderColor: '#888888',
+                    backgroundColor: transactionGradient,
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 7,
+                    pointHoverBackgroundColor: '#888888',
+                    pointHoverBorderColor: '#FFFFFF',
+                    pointHoverBorderWidth: 2,
+                    yAxisID: 'y'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { 
+                intersect: false, 
+                mode: 'index' 
+            },
+            plugins: {
+                legend: { 
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                    titleColor: '#C5FFA7',
+                    titleFont: { size: 13, family: 'Inter', weight: '700' },
+                    bodyColor: '#E8E8E8',
+                    bodyFont: { size: 12, family: 'Inter', weight: '500' },
+                    borderColor: 'rgba(197, 255, 167, 0.3)',
+                    borderWidth: 1,
+                    padding: 14,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    boxWidth: 12,
+                    boxHeight: 12,
+                    boxPadding: 6
+                }
+            },
+            scales: {
+                x: {
+                    grid: { 
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.02)',
+                        drawBorder: false
+                    },
+                    ticks: { 
+                        color: '#A3A3A3', 
+                        font: { size: 11, family: 'Inter', weight: '500' },
+                        padding: 10
+                    },
+                    border: {
+                        display: false
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    grid: { 
+                        color: 'rgba(255, 255, 255, 0.05)', 
+                        borderDash: [5, 5],
+                        drawBorder: false
+                    },
+                    ticks: { 
+                        color: '#CCCCCC', 
+                        font: { size: 12, family: 'Inter', weight: '600' },
+                        padding: 12,
+                        callback: function(value) {
+                            return value.toFixed(3) + ' BTC';
+                        }
+                    },
+                    border: {
+                        display: false
+                    }
+                }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+}
+
+function initWalletBarChart() {
+    const ctx = document.getElementById('walletBarChart');
+    if (!ctx) return;
+
+    if (typeof Chart === 'undefined') {
+        console.warn('Chart.js not loaded yet');
+        setTimeout(initWalletBarChart, 200);
+        return;
+    }
+
+    // Créer des gradients similaires au graphique existant
+    const btcGradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 201);
+    btcGradient.addColorStop(0, 'rgba(197, 255, 167, 0.8)');
+    btcGradient.addColorStop(1, 'rgba(197, 255, 167, 0.3)');
+
+    const transactionGradient = ctx.getContext('2d').createLinearGradient(0, 0, 0, 201);
+    transactionGradient.addColorStop(0, 'rgba(136, 136, 136, 0.8)');
+    transactionGradient.addColorStop(1, 'rgba(136, 136, 136, 0.3)');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                    label: 'BTC Wallet',
+                    data: [0.025, 0.027, 0.029, 0.031, 0.030, 0.032, 0.031, 0.030, 0.032, 0.031, 0.031, 0.032],
+                    backgroundColor: btcGradient,
+                    borderColor: '#C5FFA7',
+                    borderWidth: 2,
+                    borderRadius: 4,
+                    borderSkipped: false,
+                },
+                {
+                    label: 'Transactions',
+                    data: [0.005, 0.0055, 0.0052, 0.0058, 0.0056, 0.0059, 0.0057, 0.0055, 0.0058, 0.0056, 0.0057, 0.0058],
+                    backgroundColor: transactionGradient,
+                    borderColor: '#888888',
+                    borderWidth: 2,
+                    borderRadius: 4,
+                    borderSkipped: false,
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { 
+                intersect: false, 
+                mode: 'index' 
+            },
+            plugins: {
+                legend: { 
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                    titleColor: '#C5FFA7',
+                    titleFont: { size: 13, family: 'Inter', weight: '700' },
+                    bodyColor: '#E8E8E8',
+                    bodyFont: { size: 12, family: 'Inter', weight: '500' },
+                    borderColor: 'rgba(197, 255, 167, 0.3)',
+                    borderWidth: 1,
+                    padding: 14,
+                    cornerRadius: 8,
+                    displayColors: true,
+                    boxWidth: 12,
+                    boxHeight: 12,
+                    boxPadding: 6
+                }
+            },
+            scales: {
+                x: {
+                    grid: { 
+                        display: true,
+                        color: 'rgba(255, 255, 255, 0.02)',
+                        drawBorder: false
+                    },
+                    ticks: { 
+                        color: '#A3A3A3', 
+                        font: { size: 11, family: 'Inter', weight: '500' },
+                        padding: 10
+                    },
+                    border: {
+                        display: false
+                    }
+                },
+                y: {
+                    type: 'linear',
+                    grid: { 
+                        color: 'rgba(255, 255, 255, 0.05)', 
+                        borderDash: [5, 5],
+                        drawBorder: false
+                    },
+                    ticks: { 
+                        color: '#CCCCCC', 
+                        font: { size: 12, family: 'Inter', weight: '600' },
+                        padding: 12,
+                        callback: function(value) {
+                            return value.toFixed(3) + ' BTC';
+                        }
+                    },
+                    border: {
+                        display: false
+                    }
+                }
+            },
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart'
+            }
+        }
+    });
+}
+
+// Auto-initialize when dashboard is rendered
+if (typeof window !== 'undefined') {
+    // Initialize immediately if DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => {
+            initSeeMoreButtons();
+            setTimeout(initWalletPerformanceChart, 200);
+            setTimeout(initWalletBarChart, 200);
+        });
+    } else {
+        // DOM already loaded, initialize after a short delay to ensure elements exist
+        setTimeout(() => {
+            initSeeMoreButtons();
+            initWalletPerformanceChart();
+            initWalletBarChart();
+        }, 100);
+    }
+    
+    // Also initialize when dashboard view is loaded
+    window.initSeeMoreButtons = initSeeMoreButtons;
+    window.initWalletPerformanceChart = initWalletPerformanceChart;
+    window.initWalletBarChart = initWalletBarChart;
+}
 
 export const dashboardTemplate = renderDashboard;
 export { dashboardStyles };

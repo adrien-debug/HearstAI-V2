@@ -67,18 +67,6 @@
                 </div>
             </main>
             
-            <!-- Footer Premium -->
-            <footer class="footer-premium">
-                <div class="footer-bottom">
-                    <div class="footer-copyright">
-                        © 2025 HearstAI. All rights reserved.
-                    </div>
-                    <div class="footer-version">
-                        Version 1.0.0
-                    </div>
-                </div>
-            </footer>
-            
         </div>
     </div>
     
@@ -86,6 +74,37 @@
     <div id="modal-container"></div>
     
     <!-- Scripts -->
+    <script>
+        // Force dark theme for HEARST design
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('hearstai-theme', 'dark');
+        
+        // Debug: Log when scripts start loading
+        console.log('📄 HTML loaded, starting scripts...');
+        
+        // Error handler for unhandled errors
+        window.addEventListener('error', (event) => {
+            console.error('❌ Global error:', event.error);
+            const contentArea = document.getElementById('content-area');
+            if (contentArea && !contentArea.querySelector('.dashboard-view')) {
+                contentArea.innerHTML = `
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="text-danger">JavaScript Error</h3>
+                            <p class="text-secondary">${event.error?.message || 'Unknown error'}</p>
+                            <pre style="background: var(--primary-grey); padding: var(--space-4); border-radius: var(--radius-md); color: var(--text-secondary); font-size: var(--text-sm); overflow: auto;">${event.error?.stack || ''}</pre>
+                            <button class="btn btn-primary mt-md" onclick="location.reload()">Reload Page</button>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+        
+        // Handle unhandled promise rejections
+        window.addEventListener('unhandledrejection', (event) => {
+            console.error('❌ Unhandled promise rejection:', event.reason);
+        });
+    </script>
     <script type="module" src="js/icons.js"></script>
     <script type="module" src="js/app.js"></script>
 </body>

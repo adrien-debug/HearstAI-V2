@@ -392,3 +392,4 @@ Une fois l'intégration terminée :
 **Tu es prêt à intégrer le dashboard HEARST Mining dans Electricity Invoices avec tous les menus transformés en sous-menus. Bonne intégration ! 🚀**
 
 
+
