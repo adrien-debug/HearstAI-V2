@@ -14,6 +14,8 @@ import { renderElectricityView, electricityStyles } from './views/electricity.js
 import { initElectricity } from './electricity.js';
 import { renderAdminPanelView, adminPanelStyles } from './views/admin-panel.js';
 import { initAdminPanel } from './admin-panel.js';
+import { renderCollateralView, collateralStyles } from './views/collateral.js';
+import { initCollateral } from './collateral.js';
 import API from './api.js';
 import Modal from './components/modal.js';
 import notify from './components/notification.js';
@@ -325,6 +327,7 @@ node server.js</pre>
             settings: 'Settings',
             electricity: 'Électricité',
             'admin-panel': 'Admin Panel',
+            collateral: 'Collateral',
         };
         
         this.pageTitle.textContent = titles[view] || view;
@@ -403,9 +406,13 @@ node server.js</pre>
             if (settingsNav) settingsNav.remove();
             const electricityNav = document.getElementById('electricity-header-nav');
             if (electricityNav) electricityNav.remove();
+            const adminPanelNav = document.getElementById('admin-panel-header-nav');
+            if (adminPanelNav) adminPanelNav.remove();
+            const collateralNav = document.getElementById('collateral-header-nav');
+            if (collateralNav) collateralNav.remove();
             const header = document.querySelector('.header');
             if (header) {
-                header.classList.remove('has-cockpit-nav', 'has-settings-nav', 'has-electricity-nav');
+                header.classList.remove('has-cockpit-nav', 'has-settings-nav', 'has-electricity-nav', 'has-admin-panel-nav', 'has-collateral-nav');
                 header.classList.add('has-projections-nav');
             }
             this.setupProjectionsHeaderNav();
@@ -491,12 +498,46 @@ node server.js</pre>
             if (settingsNav) settingsNav.remove();
             const electricityNav = document.getElementById('electricity-header-nav');
             if (electricityNav) electricityNav.remove();
+            const collateralNav = document.getElementById('collateral-header-nav');
+            if (collateralNav) collateralNav.remove();
             const header = document.querySelector('.header');
             if (header) {
-                header.classList.remove('has-cockpit-nav', 'has-projections-nav', 'has-settings-nav', 'has-electricity-nav');
+                header.classList.remove('has-cockpit-nav', 'has-projections-nav', 'has-settings-nav', 'has-electricity-nav', 'has-collateral-nav');
                 header.classList.add('has-admin-panel-nav');
             }
             this.setupAdminPanelHeaderNav();
+        } else if (view === 'collateral') {
+            // Pour collateral, on cache le bouton et on affiche la navigation
+            if (this.btnNewAction) this.btnNewAction.style.display = 'none';
+            // Cacher le header-right (Admin)
+            const headerRight = document.querySelector('.header-right');
+            if (headerRight) {
+                headerRight.style.display = 'none';
+            }
+            // Afficher le header-left pour le titre "Collateral"
+            const headerLeft = document.querySelector('.header-left');
+            if (headerLeft) {
+                headerLeft.style.display = 'flex';
+            }
+            // Supprimer les autres navigations
+            const cockpitNav = document.getElementById('cockpit-header-nav');
+            if (cockpitNav) cockpitNav.remove();
+            const cockpitHeaderInfo = document.getElementById('cockpit-header-info');
+            if (cockpitHeaderInfo) cockpitHeaderInfo.remove();
+            const projectionsNav = document.getElementById('projections-header-nav');
+            if (projectionsNav) projectionsNav.remove();
+            const settingsNav = document.getElementById('settings-header-nav');
+            if (settingsNav) settingsNav.remove();
+            const electricityNav = document.getElementById('electricity-header-nav');
+            if (electricityNav) electricityNav.remove();
+            const adminPanelNav = document.getElementById('admin-panel-header-nav');
+            if (adminPanelNav) adminPanelNav.remove();
+            const header = document.querySelector('.header');
+            if (header) {
+                header.classList.remove('has-cockpit-nav', 'has-projections-nav', 'has-settings-nav', 'has-electricity-nav', 'has-admin-panel-nav');
+                header.classList.add('has-collateral-nav');
+            }
+            this.setupCollateralHeaderNav();
         } else {
             const buttonText = buttons[view] || '+ New';
             if (buttonText) {
@@ -985,6 +1026,69 @@ node server.js</pre>
         }
     }
     
+    setupCollateralHeaderNav() {
+        // Supprimer l'ancienne navigation si elle existe
+        const existingNav = document.getElementById('collateral-header-nav');
+        if (existingNav) {
+            existingNav.remove();
+        }
+        
+        // Créer la navigation collateral dans le header (centrée)
+        const header = document.querySelector('.header');
+        if (!header) return;
+        
+        // Ajouter une classe au header pour le positionnement
+        header.classList.add('has-collateral-nav');
+        
+        // Créer un conteneur centré pour les onglets
+        const collateralNav = document.createElement('div');
+        collateralNav.id = 'collateral-header-nav';
+        collateralNav.className = 'cockpit-header-nav'; // Réutiliser les styles cockpit
+        collateralNav.innerHTML = `
+            <div class="cockpit-nav-tabs">
+                <button class="cockpit-nav-tab collateral-nav-tab active" data-collateral-section="dashboard">
+                    <span class="cockpit-nav-icon">${Icons.dashboard}</span>
+                    <span class="cockpit-nav-label">Dashboard</span>
+                </button>
+                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="collateral">
+                    <span class="cockpit-nav-icon">${Icons.document}</span>
+                    <span class="cockpit-nav-label">Collateral</span>
+                </button>
+                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="customers">
+                    <span class="cockpit-nav-icon">${Icons.workers}</span>
+                    <span class="cockpit-nav-label">Customers</span>
+                </button>
+                <button class="cockpit-nav-tab collateral-nav-tab" data-collateral-section="api-management">
+                    <span class="cockpit-nav-icon">${Icons.settings}</span>
+                    <span class="cockpit-nav-label">API Management</span>
+                </button>
+            </div>
+        `;
+        
+        // Insérer dans le header (centré)
+        header.appendChild(collateralNav);
+        
+        // Attacher les event listeners
+        const navTabs = collateralNav.querySelectorAll('.collateral-nav-tab');
+        navTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const sectionId = tab.getAttribute('data-collateral-section');
+                if (sectionId && window.showCollateralSection) {
+                    window.showCollateralSection(sectionId);
+                    
+                    // Update active state
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                }
+            });
+        });
+        
+        // Recharger les icônes après insertion
+        if (this.reloadIcons) {
+            this.reloadIcons();
+        }
+    }
+    
     handleNewAction() {
         const actions = {
             dashboard: () => window.showCreateProjectModal(),
@@ -1036,7 +1140,8 @@ node server.js</pre>
             cockpit: async () => ({}),
             settings: async () => ({}),
             electricity: async () => ({}),
-            'admin-panel': async () => ({})
+            'admin-panel': async () => ({}),
+            collateral: async () => ({})
         };
         
         const fetcher = dataFetchers[view];
@@ -1063,6 +1168,7 @@ node server.js</pre>
             settings: async () => this.renderSettings(data),
             electricity: async () => this.renderElectricity(data),
             'admin-panel': async () => this.renderAdminPanel(data),
+            collateral: async () => this.renderCollateral(data),
         };
         
         const renderer = renderers[view];
@@ -1213,6 +1319,14 @@ node server.js</pre>
         
         // Initialize admin panel functionality
         initAdminPanel();
+    }
+    
+    async renderCollateral(data) {
+        const template = await renderCollateralView();
+        this.contentArea.innerHTML = collateralStyles + template;
+        
+        // Initialize collateral functionality
+        initCollateral();
     }
     
     async reloadCurrentView() {

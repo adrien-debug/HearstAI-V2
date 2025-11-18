@@ -438,6 +438,27 @@ body {
     padding-left: var(--space-8);
 }
 
+.header-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: var(--space-2) 0;
+}
+
+.header-logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(123, 237, 159, 0.3));
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.header-logo-img:hover {
+    transform: scale(1.05);
+    filter: drop-shadow(0 4px 8px rgba(123, 237, 159, 0.5));
+}
+
 .page-title {
     font-size: var(--text-xl);
     font-weight: var(--font-semibold);
