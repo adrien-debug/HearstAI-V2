@@ -53,8 +53,28 @@ export function renderDashboard(data) {
                                         <td>2025-07-09</td>
                                         <td class="transaction-amount">0.005650 BTC</td>
                                     </tr>
+                                    <tr>
+                                        <td>2025-07-08</td>
+                                        <td class="transaction-amount">0.004320 BTC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-07-08</td>
+                                        <td class="transaction-amount">0.003210 BTC</td>
+                                    </tr>
+                                    <tr>
+                                        <td>2025-07-07</td>
+                                        <td class="transaction-amount">0.002890 BTC</td>
+                                    </tr>
                                 </tbody>
                             </table>
+                            <div class="transactions-see-more">
+                                <select class="see-more-select" id="wallet-see-more">
+                                    <option value="">See more</option>
+                                    <option value="all">View all transactions</option>
+                                    <option value="export">Export to CSV</option>
+                                    <option value="filter">Filter by date</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -239,7 +259,7 @@ const dashboardStyles = `
     inset: 0;
     background: radial-gradient(
         circle at top right,
-        rgba(138, 253, 129, 0.05) 0%,
+        rgba(197, 255, 167, 0.05) 0%,
         transparent 50%
     );
     border-radius: inherit;
@@ -256,7 +276,7 @@ const dashboardStyles = `
     box-shadow: 
         0 12px 48px rgba(0, 0, 0, 0.5),
         0 4px 16px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(138, 253, 129, 0.2),
+        0 0 0 1px rgba(197, 255, 167, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
     transform: translateY(-4px) !important;
 }
@@ -288,10 +308,10 @@ const dashboardStyles = `
 .wallet-balance-btc {
     font-size: var(--text-4xl);
     font-weight: var(--font-bold);
-    color: var(--primary-green);
+    color: #C5FFA7;
     letter-spacing: -0.02em;
     line-height: var(--leading-tight);
-    text-shadow: 0 0 20px rgba(138, 253, 129, 0.3);
+    text-shadow: 0 0 20px rgba(197, 255, 167, 0.3);
 }
 
 .wallet-balance-usd {
@@ -316,7 +336,7 @@ const dashboardStyles = `
 }
 
 .wallet-address:hover {
-    border-color: rgba(138, 253, 129, 0.3);
+    border-color: rgba(197, 255, 167, 0.3);
     background: rgba(10, 10, 10, 0.8);
 }
 
@@ -339,9 +359,9 @@ const dashboardStyles = `
 }
 
 .wallet-address-copy:hover {
-    background: rgba(138, 253, 129, 0.1);
-    color: var(--primary-green);
-    box-shadow: 0 0 12px rgba(138, 253, 129, 0.2);
+    background: rgba(197, 255, 167, 0.1);
+    color: #C5FFA7;
+    box-shadow: 0 0 12px rgba(197, 255, 167, 0.2);
 }
 
 .wallet-address-copy svg {
@@ -374,13 +394,13 @@ const dashboardStyles = `
     box-shadow: 
         0 12px 48px rgba(0, 0, 0, 0.5),
         0 4px 16px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(138, 253, 129, 0.2),
+        0 0 0 1px rgba(197, 255, 167, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
 .transactions-section .table thead tr {
     background: linear-gradient(180deg, #454646 0%, #3a3a3a 100%) !important;
-    border-bottom: var(--border-medium) solid rgba(138, 253, 129, 0.3) !important;
+    border-bottom: var(--border-medium) solid rgba(197, 255, 167, 0.3) !important;
 }
 
 .transactions-section .table thead th {
@@ -405,11 +425,11 @@ const dashboardStyles = `
 .transactions-section .table tbody tr:hover {
     background: linear-gradient(
         90deg,
-        rgba(138, 253, 129, 0.05) 0%,
-        rgba(138, 253, 129, 0.1) 50%,
-        rgba(138, 253, 129, 0.05) 100%
+        rgba(197, 255, 167, 0.05) 0%,
+        rgba(197, 255, 167, 0.1) 50%,
+        rgba(197, 255, 167, 0.05) 100%
     ) !important;
-    box-shadow: inset 2px 0 0 var(--primary-green) !important;
+    box-shadow: inset 2px 0 0 #C5FFA7 !important;
     transform: translateX(2px) !important;
 }
 
@@ -421,10 +441,81 @@ const dashboardStyles = `
 }
 
 .transaction-amount {
-    color: var(--primary-green);
+    color: #C5FFA7;
     font-weight: var(--font-semibold);
     font-family: var(--font-mono);
-    text-shadow: 0 0 10px rgba(138, 253, 129, 0.2);
+    text-shadow: 0 0 10px rgba(197, 255, 167, 0.2);
+}
+
+.transactions-see-more {
+    padding: var(--space-4) var(--space-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(26, 26, 26, 0.7) !important;
+    position: relative;
+}
+
+.transactions-see-more::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(197, 255, 167, 0.3), transparent);
+}
+
+.see-more-select {
+    padding: var(--space-3) var(--space-6) !important;
+    background: rgba(10, 10, 10, 0.8) !important;
+    border: 1px solid rgba(197, 255, 167, 0.2) !important;
+    border-radius: var(--radius-md) !important;
+    color: var(--text-primary) !important;
+    font-size: var(--text-sm) !important;
+    font-weight: var(--font-semibold) !important;
+    font-family: var(--font-primary) !important;
+    cursor: pointer !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 14 14'%3E%3Cpath fill='%23C5FFA7' d='M7 10L2 5h10z'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right var(--space-4) center !important;
+    padding-right: 40px !important;
+    min-width: 160px;
+    letter-spacing: 0.2px;
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.see-more-select:hover {
+    border-color: rgba(197, 255, 167, 0.5) !important;
+    background: rgba(10, 10, 10, 0.95) !important;
+    box-shadow: 
+        0 4px 16px rgba(197, 255, 167, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-1px);
+}
+
+.see-more-select:focus {
+    outline: none !important;
+    border-color: #C5FFA7 !important;
+    box-shadow: 
+        0 0 0 3px rgba(197, 255, 167, 0.15),
+        0 4px 16px rgba(197, 255, 167, 0.2) !important;
+}
+
+.see-more-select option {
+    background: rgba(26, 26, 26, 0.95) !important;
+    color: var(--text-primary) !important;
+    padding: var(--space-2) !important;
 }
 
 /* Transaction History Section */
@@ -516,15 +607,15 @@ const dashboardStyles = `
 
 .transaction-history-controls .date-range-select:hover,
 .transaction-history-controls .contract-select:hover {
-    border-color: rgba(138, 253, 129, 0.3) !important;
+    border-color: rgba(197, 255, 167, 0.3) !important;
     background: rgba(10, 10, 10, 0.8) !important;
 }
 
 .transaction-history-controls .date-range-select:focus,
 .transaction-history-controls .contract-select:focus {
     outline: none !important;
-    border-color: var(--primary-green) !important;
-    box-shadow: 0 0 0 3px rgba(138, 253, 129, 0.1) !important;
+    border-color: #C5FFA7 !important;
+    box-shadow: 0 0 0 3px rgba(197, 255, 167, 0.1) !important;
 }
 
 .date-range-select,
@@ -554,15 +645,15 @@ const dashboardStyles = `
 
 .date-range-select:hover,
 .contract-select:hover {
-    border-color: var(--primary-green);
-    background: rgba(138, 253, 129, 0.05);
+    border-color: #C5FFA7;
+    background: rgba(197, 255, 167, 0.05);
 }
 
 .date-range-select:focus,
 .contract-select:focus {
     outline: none;
-    border-color: var(--primary-green);
-    box-shadow: 0 0 0 1px rgba(138, 253, 129, 0.2);
+    border-color: #C5FFA7;
+    box-shadow: 0 0 0 1px rgba(197, 255, 167, 0.2);
 }
 
 .date-range-select option,
@@ -578,7 +669,7 @@ const dashboardStyles = `
     font-size: var(--text-sm) !important;
     font-weight: var(--font-semibold) !important;
     border-radius: var(--radius-full) !important;
-    background: var(--accent-primary) !important;
+    background: #C5FFA7 !important;
     color: #000000 !important;
     border: none !important;
     transition: all var(--transition-normal) !important;
@@ -587,14 +678,14 @@ const dashboardStyles = `
     box-sizing: border-box !important;
     letter-spacing: -0.01em !important;
     box-shadow: 
-        0 4px 16px rgba(138, 253, 129, 0.4),
+        0 4px 16px rgba(197, 255, 167, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
 }
 
 .btn-export-excel:hover:not(:disabled) {
-    background: var(--accent-primary-dark) !important;
+    background: #B0FF8F !important;
     box-shadow: 
-        0 6px 24px rgba(138, 253, 129, 0.4),
+        0 6px 24px rgba(197, 255, 167, 0.4),
         inset 0 1px 0 rgba(255, 255, 255, 0.4) !important;
     transform: translateY(-1px) scale(1.02) !important;
 }
@@ -625,7 +716,7 @@ const dashboardStyles = `
     box-shadow: 
         0 12px 48px rgba(0, 0, 0, 0.5),
         0 4px 16px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(138, 253, 129, 0.2),
+        0 0 0 1px rgba(197, 255, 167, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
 }
 
@@ -637,7 +728,7 @@ const dashboardStyles = `
 
 .transaction-history-table thead tr {
     background: linear-gradient(180deg, #454646 0%, #3a3a3a 100%) !important;
-    border-bottom: var(--border-medium) solid rgba(138, 253, 129, 0.3) !important;
+    border-bottom: var(--border-medium) solid rgba(197, 255, 167, 0.3) !important;
 }
 
 .transaction-history-table thead th {
@@ -662,11 +753,11 @@ const dashboardStyles = `
 .transaction-history-table tbody tr:hover {
     background: linear-gradient(
         90deg,
-        rgba(138, 253, 129, 0.05) 0%,
-        rgba(138, 253, 129, 0.1) 50%,
-        rgba(138, 253, 129, 0.05) 100%
+        rgba(197, 255, 167, 0.05) 0%,
+        rgba(197, 255, 167, 0.1) 50%,
+        rgba(197, 255, 167, 0.05) 100%
     ) !important;
-    box-shadow: inset 2px 0 0 var(--primary-green) !important;
+    box-shadow: inset 2px 0 0 #C5FFA7 !important;
     transform: translateX(2px) !important;
 }
 
@@ -679,10 +770,10 @@ const dashboardStyles = `
 
 .transaction-amount,
 .transaction-reward {
-    color: var(--primary-green);
+    color: #C5FFA7;
     font-weight: var(--font-semibold);
     font-family: var(--font-mono);
-    text-shadow: 0 0 10px rgba(138, 253, 129, 0.2);
+    text-shadow: 0 0 10px rgba(197, 255, 167, 0.2);
 }
 
 .transaction-history-total {
@@ -697,15 +788,15 @@ const dashboardStyles = `
 }
 
 .transaction-history-total .total-amount {
-    color: var(--primary-green);
+    color: #C5FFA7;
     margin-left: var(--space-2);
-    text-shadow: 0 0 10px rgba(138, 253, 129, 0.2);
+    text-shadow: 0 0 10px rgba(197, 255, 167, 0.2);
 }
 
 /* Button Transaction History - Premium Style */
 .btn.btn-transaction-history,
 button.btn-transaction-history {
-    background-color: #8AFD81 !important;
+    background-color: #C5FFA7 !important;
     color: #000 !important;
     border-radius: 30px !important;
     font-weight: 600 !important;
@@ -718,8 +809,8 @@ button.btn-transaction-history {
 button.btn-transaction-history:hover,
 .btn.btn-transaction-history:active,
 button.btn-transaction-history:active {
-    background-color: #70D467 !important;
-    box-shadow: 0 0 12px rgba(138, 253, 129, 0.55) !important;
+    background-color: #B0FF8F !important;
+    box-shadow: 0 0 12px rgba(197, 255, 167, 0.55) !important;
     transform: translateY(-1px) !important;
     color: #000 !important;
 }

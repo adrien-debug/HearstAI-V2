@@ -32,6 +32,7 @@ export const adminPanelStyles = `
         /* Admin Panel View Styles - HEARST Design System */
         .admin-panel-view {
             padding: var(--space-6);
+            padding-left: var(--space-4) !important;
             width: 100%;
             max-width: 100%;
             margin: 0;
@@ -960,4 +961,5 @@ export const adminPanelStyles = `
         }
     </style>
 `;
+
 

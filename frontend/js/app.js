@@ -316,6 +316,8 @@ node server.js</pre>
     }
     
     updatePageTitle(view) {
+        if (!this.pageTitle) return;
+        
         const titles = {
             dashboard: 'Dashboard',
             projects: 'Projestions',
