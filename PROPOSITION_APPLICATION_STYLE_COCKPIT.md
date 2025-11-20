@@ -203,3 +203,5 @@ Application du **STYLE GUIDE HOME PAGE** sur la page **Cockpit** comme test.
 **STATUS : ⏳ EN ATTENTE DE VALIDATION**
 
 
+
+
