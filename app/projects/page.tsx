@@ -67,7 +67,7 @@ export default function ProjectsPage() {
 
   const getStatusColor = (status: string) => {
     const statusUpper = status.toUpperCase()
-    if (statusUpper === 'ACTIVE') return '#9EFF00'
+    if (statusUpper === 'ACTIVE') return '#a5ff9c'
     if (statusUpper === 'ARCHIVED') return '#888'
     return '#ffa500'
   }
@@ -76,9 +76,8 @@ export default function ProjectsPage() {
     <div className="dashboard-view">
       <div className="dashboard-content">
         <div style={{ marginBottom: 'var(--space-6)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
+          <div style={{ marginBottom: 'var(--space-4)' }}>
             <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 700 }}>Projects</h1>
-            <Button>+ New Project</Button>
           </div>
           
           {/* Navigation tabs */}
@@ -126,8 +125,8 @@ export default function ProjectsPage() {
                 <div className="spinner" style={{
                   width: '40px',
                   height: '40px',
-                  border: '3px solid rgba(158, 255, 0, 0.2)',
-                  borderTopColor: '#9EFF00',
+                  border: '3px solid rgba(165, 255, 156, 0.2)',
+                  borderTopColor: '#a5ff9c',
                   borderRadius: '50%',
                   animation: 'spin 1s linear infinite',
                   margin: '0 auto var(--space-4)',
@@ -137,8 +136,7 @@ export default function ProjectsPage() {
             ) : projects.length === 0 ? (
               <Card>
                 <CardContent style={{ textAlign: 'center', padding: 'var(--space-8)' }}>
-                  <p>No projects yet. Create your first project!</p>
-                  <Button style={{ marginTop: 'var(--space-4)' }}>+ New Project</Button>
+                  <p>No projects yet.</p>
                 </CardContent>
               </Card>
             ) : (

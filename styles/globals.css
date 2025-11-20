@@ -2,12 +2,13 @@
 
 /* Import design tokens and variables */
 @import '../frontend/css/main.css';
+@import './dashboard.css';
 
 /* Additional global styles */
 :root {
   /* HEARST specific colors */
-  --hearst-green: #9EFF00;
-  --hearst-green-dark: #8afd81;
+  --hearst-green: #a5ff9c;
+  --hearst-green-dark: #a5ff9c;
   
   /* Text colors */
   --text-primary: #ffffff;
@@ -144,6 +145,18 @@ body {
 
 .spinner {
   animation: spin 1s linear infinite;
+}
+
+/* Pulse animation for live indicators */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 6px rgba(165, 255, 156, 0.5);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 12px rgba(165, 255, 156, 0.8);
+  }
 }
 
 /* Utility classes */

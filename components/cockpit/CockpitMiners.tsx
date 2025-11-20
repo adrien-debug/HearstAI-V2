@@ -18,7 +18,7 @@ export default function CockpitMiners() {
           </CardHeader>
           <CardContent>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--hearst-green)' }}>
-              0
+              124
             </div>
             <p style={{ color: 'var(--text-secondary)', marginTop: 'var(--space-2)', fontSize: 'var(--text-sm)' }}>
               Fleet size
@@ -31,7 +31,7 @@ export default function CockpitMiners() {
           </CardHeader>
           <CardContent>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: 'var(--hearst-green)' }}>
-              0
+              118
             </div>
             <p style={{ color: 'var(--text-secondary)', marginTop: 'var(--space-2)', fontSize: 'var(--text-sm)' }}>
               Currently mining
@@ -44,7 +44,7 @@ export default function CockpitMiners() {
           </CardHeader>
           <CardContent>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#ff4d4d' }}>
-              0
+              2
             </div>
             <p style={{ color: 'var(--text-secondary)', marginTop: 'var(--space-2)', fontSize: 'var(--text-sm)' }}>
               Requires attention
@@ -72,9 +72,44 @@ export default function CockpitMiners() {
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={6} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                    No miners registered yet
-                  </td>
+                  <td>MINER-001</td>
+                  <td>Antminer S21</td>
+                  <td>98.5 TH/s</td>
+                  <td>3550 W</td>
+                  <td>36°C</td>
+                  <td><span style={{ color: 'var(--hearst-green)' }}>ONLINE</span></td>
+                </tr>
+                <tr>
+                  <td>MINER-002</td>
+                  <td>Antminer S21</td>
+                  <td>97.2 TH/s</td>
+                  <td>3520 W</td>
+                  <td>35°C</td>
+                  <td><span style={{ color: 'var(--hearst-green)' }}>ONLINE</span></td>
+                </tr>
+                <tr>
+                  <td>MINER-003</td>
+                  <td>Antminer S19 Pro</td>
+                  <td>110.0 TH/s</td>
+                  <td>3250 W</td>
+                  <td>38°C</td>
+                  <td><span style={{ color: 'var(--hearst-green)' }}>ONLINE</span></td>
+                </tr>
+                <tr>
+                  <td>MINER-004</td>
+                  <td>Antminer S19</td>
+                  <td>95.0 TH/s</td>
+                  <td>3250 W</td>
+                  <td>42°C</td>
+                  <td><span style={{ color: '#FFA500' }}>DEGRADED</span></td>
+                </tr>
+                <tr>
+                  <td>MINER-005</td>
+                  <td>Antminer S19</td>
+                  <td>0 TH/s</td>
+                  <td>0 W</td>
+                  <td>-</td>
+                  <td><span style={{ color: '#ff4d4d' }}>OFFLINE</span></td>
                 </tr>
               </tbody>
             </table>

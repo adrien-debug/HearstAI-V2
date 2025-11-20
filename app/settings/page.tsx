@@ -71,7 +71,7 @@ export default function SettingsPage() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--hearst-green)'
-                  e.currentTarget.style.background = 'rgba(158, 255, 0, 0.05)'
+                  e.currentTarget.style.background = 'rgba(165, 255, 156, 0.05)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border)'
@@ -98,7 +98,7 @@ export default function SettingsPage() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--hearst-green)'
-                  e.currentTarget.style.background = 'rgba(158, 255, 0, 0.05)'
+                  e.currentTarget.style.background = 'rgba(165, 255, 156, 0.05)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border)'
@@ -125,7 +125,7 @@ export default function SettingsPage() {
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.borderColor = 'var(--hearst-green)'
-                  e.currentTarget.style.background = 'rgba(158, 255, 0, 0.05)'
+                  e.currentTarget.style.background = 'rgba(165, 255, 156, 0.05)'
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.borderColor = 'var(--border)'

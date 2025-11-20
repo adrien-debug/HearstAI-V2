@@ -5,11 +5,22 @@
 // In production on Vercel, NEXT_PUBLIC_API_URL should be set to Railway backend URL
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api'
 
+// Ensure API_BASE_URL ends with /api if it's a full URL
+const getBaseUrl = () => {
+  const base = API_BASE_URL
+  if (base.startsWith('http')) {
+    // If it's a full URL, ensure it ends with /api
+    return base.endsWith('/api') ? base : `${base}/api`
+  }
+  return base
+}
+
 export async function fetchAPI<T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> {
-  const url = `${API_BASE_URL}${endpoint}`
+  const baseUrl = getBaseUrl()
+  const url = `${baseUrl}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`
   
   const response = await fetch(url, {
     ...options,

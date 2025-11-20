@@ -29,8 +29,30 @@ export default function CollateralAssets() {
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-secondary)' }}>
-                    No assets added yet
+                  <td>ETH</td>
+                  <td>500.00</td>
+                  <td>$1,250,000</td>
+                  <td>Yes</td>
+                  <td>
+                    <Button variant="outline" style={{ padding: 'var(--space-1) var(--space-2)', fontSize: 'var(--text-xs)' }}>View</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>BTC</td>
+                  <td>300.00</td>
+                  <td>$850,000</td>
+                  <td>Yes</td>
+                  <td>
+                    <Button variant="outline" style={{ padding: 'var(--space-1) var(--space-2)', fontSize: 'var(--text-xs)' }}>View</Button>
+                  </td>
+                </tr>
+                <tr>
+                  <td>USDC</td>
+                  <td>400,000.00</td>
+                  <td>$400,000</td>
+                  <td>Yes</td>
+                  <td>
+                    <Button variant="outline" style={{ padding: 'var(--space-1) var(--space-2)', fontSize: 'var(--text-xs)' }}>View</Button>
                   </td>
                 </tr>
               </tbody>

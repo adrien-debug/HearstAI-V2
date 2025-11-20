@@ -146,7 +146,7 @@ export default function ElectricityView({ data }: ElectricityViewProps) {
                         borderRadius: 'var(--radius-sm)',
                         fontSize: 'var(--text-xs)',
                         fontWeight: 600,
-                        background: miner.status === 'online' ? 'rgba(158, 255, 0, 0.2)' : 'rgba(255, 77, 77, 0.2)',
+                        background: miner.status === 'online' ? 'rgba(165, 255, 156, 0.2)' : 'rgba(255, 77, 77, 0.2)',
                         color: miner.status === 'online' ? 'var(--hearst-green)' : '#ff4d4d',
                       }}
                     >
