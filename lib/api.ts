@@ -100,6 +100,17 @@ export const collateralAPI = {
   getAll: () => fetchAPI<any>('/collateral'),
 }
 
+// Customers API
+export const customersAPI = {
+  getAll: () => fetchAPI<{ customers: any[] }>('/customers'),
+  getById: (id: string) => fetchAPI<{ customer: any }>(`/customers/${id}`),
+  create: (data: { name: string; erc20Address: string; tag?: string; chains?: string[]; protocols?: string[] }) => 
+    fetchAPI<{ customer: any }>('/customers', { method: 'POST', body: JSON.stringify(data) }),
+  update: (id: string, data: { name?: string; erc20Address?: string; tag?: string; chains?: string[]; protocols?: string[] }) => 
+    fetchAPI<{ customer: any }>(`/customers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+  delete: (id: string) => fetchAPI(`/customers/${id}`, { method: 'DELETE' }),
+}
+
 // Cockpit API
 export const cockpitAPI = {
   getData: () => fetchAPI<any>('/cockpit'),

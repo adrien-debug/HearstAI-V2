@@ -720,6 +720,87 @@
 }
 
 /* ====================================
+   AI SEARCH SECTION
+   ==================================== */
+.ai-search-section {
+    margin-bottom: var(--space-8);
+    width: 100%;
+}
+
+.ai-search-container {
+    background: rgba(14, 14, 14, 0.75);
+    border: 0.5px solid rgba(255, 255, 255, 0.04);
+    border-left: 3px solid var(--hearst-green);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    box-shadow: 
+        0 4px 24px rgba(0, 0, 0, 0.4),
+        0 1px 4px rgba(0, 0, 0, 0.2),
+        inset 0 0.5px 0 rgba(255, 255, 255, 0.06);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    animation: fadeInUp 0.4s ease-out;
+}
+
+.ai-search-header {
+    margin-bottom: var(--space-5);
+}
+
+.ai-search-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.ai-search-input {
+    width: 100%;
+    padding: var(--space-4) var(--space-5);
+    padding-left: 48px;
+    font-size: var(--text-base);
+    background-color: rgba(14, 14, 14, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.ai-search-input:focus {
+    border-color: var(--hearst-green);
+    box-shadow: 0 0 0 3px rgba(165, 255, 156, 0.1);
+}
+
+.ai-search-results {
+    margin-top: var(--space-4);
+    padding: var(--space-3);
+    background-color: rgba(14, 14, 14, 0.75);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-lg);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.ai-search-results::-webkit-scrollbar {
+    width: 8px;
+}
+
+.ai-search-results::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.ai-search-results::-webkit-scrollbar-thumb {
+    background: rgba(165, 255, 156, 0.3);
+    border-radius: 4px;
+}
+
+.ai-search-results::-webkit-scrollbar-thumb:hover {
+    background: rgba(165, 255, 156, 0.5);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* ====================================
    PREMIUM STATS BOXES SECTION
    ==================================== */
 .premium-stats-section {

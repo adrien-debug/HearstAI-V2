@@ -8,9 +8,12 @@ import CollateralAssets from '@/components/collateral/CollateralAssets'
 import CollateralLoans from '@/components/collateral/CollateralLoans'
 import CollateralTransactions from '@/components/collateral/CollateralTransactions'
 import CollateralAnalytics from '@/components/collateral/CollateralAnalytics'
+import AddCustomerModal from '@/components/collateral/AddCustomerModal'
 
 export default function CollateralPage() {
   const [activeSection, setActiveSection] = useState('overview')
+  const [showAddModal, setShowAddModal] = useState(false)
+  const [refreshKey, setRefreshKey] = useState(0)
 
   const sections = [
     { id: 'overview', label: 'Overview' },
@@ -20,13 +23,36 @@ export default function CollateralPage() {
     { id: 'analytics', label: 'Analytics' },
   ]
 
+  const handleCustomerAdded = () => {
+    setRefreshKey(prev => prev + 1)
+  }
+
   return (
     <div className="dashboard-view">
       <div className="dashboard-content">
         <div style={{ marginBottom: 'var(--space-6)' }}>
-          <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, marginBottom: 'var(--space-4)' }}>
-            Collateral Management
-          </h1>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
+            <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 700 }}>
+              Collateral Management
+            </h1>
+            <Button
+              onClick={() => setShowAddModal(true)}
+              variant="default"
+              size="default"
+              style={{
+                backgroundColor: 'var(--hearst-green)',
+                color: 'white',
+                padding: 'var(--space-2) var(--space-4)',
+                border: 'none',
+                borderRadius: 'var(--radius-md)',
+                cursor: 'pointer',
+                fontSize: 'var(--text-base)',
+                fontWeight: 500,
+              }}
+            >
+              + Ajouter Customer
+            </Button>
+          </div>
           
           {/* Navigation tabs */}
           <div style={{
@@ -57,12 +83,18 @@ export default function CollateralPage() {
         </div>
 
         {/* Section Content */}
-        {activeSection === 'overview' && <CollateralOverview />}
-        {activeSection === 'assets' && <CollateralAssets />}
-        {activeSection === 'loans' && <CollateralLoans />}
-        {activeSection === 'transactions' && <CollateralTransactions />}
-        {activeSection === 'analytics' && <CollateralAnalytics />}
+        {activeSection === 'overview' && <CollateralOverview key={refreshKey} />}
+        {activeSection === 'assets' && <CollateralAssets key={refreshKey} />}
+        {activeSection === 'loans' && <CollateralLoans key={refreshKey} />}
+        {activeSection === 'transactions' && <CollateralTransactions key={refreshKey} />}
+        {activeSection === 'analytics' && <CollateralAnalytics key={refreshKey} />}
       </div>
+
+      <AddCustomerModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSuccess={handleCustomerAdded}
+      />
     </div>
   )
 }
